@@ -2,7 +2,7 @@ export const transformCountriesData = data => {
   return data.map(({ name, capital, flag, population, languages }) => ({
     id: name,
     country: name,
-    flag: flag.medium,
+    flag: flag.large,
     capital,
     population,
     languages,

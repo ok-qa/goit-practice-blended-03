@@ -1,10 +1,17 @@
-import { Container, CountryList, SearchForm, Section } from 'components';
+import {
+  Container,
+  CountryList,
+  SearchForm,
+  Heading,
+  Section,
+} from 'components';
 import { useEffect, useState } from 'react';
 import { fetchByRegion } from 'service/countryApi';
 
 export const SearchCountry = () => {
   const [query, setQuery] = useState('');
   const [countries, setCountries] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!query) return;
@@ -13,7 +20,7 @@ export const SearchCountry = () => {
         const countries = await fetchByRegion(query);
         setCountries(countries);
       } catch (error) {
-        console.log(error);
+        setError(error.message);
       }
     };
     getData();
@@ -21,12 +28,14 @@ export const SearchCountry = () => {
 
   const onSubmit = value => {
     setQuery(value);
+    setError(null);
   };
   return (
     <Section>
       <Container>
         <SearchForm onSubmit={onSubmit} />
         <CountryList countries={countries} />
+        {error && <Heading title={error} />}
       </Container>
     </Section>
   );
